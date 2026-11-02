@@ -1,0 +1,311 @@
+{
+ "label": "Maintainers' end-to-end run of AGENTS.md from a fresh clone, plus packaging checks. Machine: one RTX 5090 (sm_120) under WSL2, CUDA 13.2, Python 3.12, Rust 1.93.",
+ "repository_commit_tested": "39e736104ab348f910c3688ea93ddd2646164a61",
+ "replication_path": {
+  "doctor": [
+   {
+    "ok": true,
+    "missing": [],
+    "suggested_arch": "sm_120",
+    "state": {
+     "baseline": false,
+     "stream": false,
+     "filter_built": false,
+     "evaluator_built": false
+    },
+    "checks": {
+     "linux": true,
+     "python>=3.9": true,
+     "nvcc": true,
+     "nvidia_gpu": true,
+     "cargo": true,
+     "rustc": true,
+     "git": true,
+     "patch": true,
+     "tar": true,
+     "c_compiler": true,
+     "libzstd": true,
+     "bubblewrap": true,
+     "ecdsafail_cli": false,
+     "repo_files_match_binding": true,
+     "disk_free_gb>=6": true
+    }
+   }
+  ],
+  "fetch-baseline": [
+   {
+    "ok": true,
+    "dir": "work/baseline",
+    "head": "39b7cd573f5a7a6b01970a9cd4f11a462e398ea1",
+    "expected": "39b7cd573f5a7a6b01970a9cd4f11a462e398ea1",
+    "baked_nonce": 1453896738487
+   }
+  ],
+  "build-stream": [
+   {
+    "ok": true,
+    "ops": 10260493,
+    "prefix_raw_sha256": "df4dc47a7f0f91254d20daf500893a3c576d07a9d06e0c0392821ac7964523be",
+    "raw_sha256": "e393544fbb9aeaaa74d0bd3e727e83f61fad7367616cc05978b8e6e90fbae792",
+    "score": 912499810,
+    "harness_rc": 0,
+    "match": {
+     "ops": true,
+     "prefix_raw_sha256": true,
+     "raw_sha256": true,
+     "score": true
+    },
+    "seconds": 78,
+    "log": "work/logs/build-stream.log"
+   }
+  ],
+  "check": [
+   {
+    "ok": true,
+    "level": 0,
+    "why": "source identical to the bound tree and stream prefix identical: no rebind needed",
+    "walk_changed": [],
+    "policy_inputs_changed": [],
+    "other_changed": [],
+    "stream": {
+     "prefix_raw_sha256": "df4dc47a7f0f91254d20daf500893a3c576d07a9d06e0c0392821ac7964523be",
+     "bound": true
+    }
+   }
+  ],
+  "rebind": [
+   {
+    "ok": true,
+    "level": 1,
+    "checkpoint_sha256": "865ab30e9c1c33ef15125fbfd68b06fbaa97d345e870b47ca5916ea65e1223ed",
+    "matches_shipped_baseline_checkpoint": true,
+    "next": "python3 tools/sfgf.py build, then audit"
+   }
+  ],
+  "build": [
+   {
+    "ok": true,
+    "arch": "sm_120",
+    "binary_sha256": "898454e6a6250fbdbb5d07befcc5e7a3fcf9ce4cd6d0a19367f8b96e582f58fb"
+   }
+  ],
+  "audit": [
+   {
+    "ok": true,
+    "audit": "work/audits/fidelity-1580000000000-48-898454e6a625/AUDIT.json",
+    "packets": 48,
+    "native_good_gpu_bad": 0,
+    "native_bad_gpu_good": 176,
+    "true_reject": 732,
+    "true_admit": 432244,
+    "checker_control": true
+   }
+  ],
+  "control": [
+   {
+    "ok": true,
+    "nonce": 1453896738487,
+    "checks": {
+     "survives_filter": true,
+     "clean": true,
+     "score": true,
+     "evaluator_score_json": true,
+     "replay_raw": true
+    },
+    "score": 912499810,
+    "mean_toffoli": 739464.902,
+    "qubits": 1234,
+    "replication": "PASS"
+   }
+  ],
+  "scan": [
+   {
+    "ok": true,
+    "start": 1453896000000,
+    "nonces": 1000000,
+    "survivors": 1,
+    "nonces_per_second": 111748,
+    "reference_windows_compared": 1,
+    "reference_windows_mismatched": [],
+    "survivors_file": "work/scans/1453896000000/survivors.bin",
+    "audited_by": "work/audits/fidelity-1580000000000-48-898454e6a625/AUDIT.json",
+    "next": "python3 tools/sfgf.py validate --survivors work/scans/1453896000000/survivors.bin"
+   },
+   {
+    "ok": true,
+    "start": 1452086000000,
+    "nonces": 10000000,
+    "survivors": 5,
+    "nonces_per_second": 108762,
+    "reference_windows_compared": 10,
+    "reference_windows_mismatched": [],
+    "survivors_file": "work/scans/1452086000000/survivors.bin",
+    "audited_by": "work/audits/fidelity-1580000000000-48-898454e6a625/AUDIT.json",
+    "next": "python3 tools/sfgf.py validate --survivors work/scans/1452086000000/survivors.bin"
+   }
+  ],
+  "validate": [
+   {
+    "ok": true,
+    "checked": 5,
+    "clean": []
+   }
+  ]
+ },
+ "step_exit_codes": [
+  {
+   "command": "doctor",
+   "rc": 0,
+   "seconds": 0
+  },
+  {
+   "command": "fetch-baseline",
+   "rc": 0,
+   "seconds": 1
+  },
+  {
+   "command": "build-stream",
+   "rc": 0,
+   "seconds": 73
+  },
+  {
+   "command": "check",
+   "rc": 0,
+   "seconds": 1
+  },
+  {
+   "command": "rebind --level 1",
+   "rc": 0,
+   "seconds": 9
+  },
+  {
+   "command": "build",
+   "rc": 0,
+   "seconds": 76
+  },
+  {
+   "command": "audit",
+   "rc": 0,
+   "seconds": 267
+  },
+  {
+   "command": "control",
+   "rc": 0,
+   "seconds": 18
+  },
+  {
+   "command": "scan --from 1453896000000 --count 1000000",
+   "rc": 0,
+   "seconds": 9
+  },
+  {
+   "command": "scan --from 1452086000000 --count 10000000",
+   "rc": 0,
+   "seconds": 87
+  },
+  {
+   "command": "validate --survivors work/scans/1452086000000/survivors.bin",
+   "rc": 0,
+   "seconds": 59
+  }
+ ],
+ "audit_detail": {
+  "start": 1580000000000,
+  "packets": 48,
+  "shots": 433152,
+  "summary": {
+   "native_good_gpu_bad": 0,
+   "native_bad_gpu_good": 176,
+   "true_reject": 732,
+   "true_admit": 432244
+  },
+  "checker_control": {
+   "shot": 0,
+   "nonce": 1580000000000,
+   "detected": true
+  },
+  "model_survivors": 0,
+  "cpu_classically_clean": 0,
+  "seconds": 287.9
+ },
+ "packaging_checks": {
+  "lftools_checkpoint_reproduced": {
+   "stream": "the searched build of the same circuit (old nonce tail)",
+   "checkpoint_sha256": "c2f87340c47a8606295ca5b58426f89b7d3ee37e813fed67960f351f6af416f2",
+   "identical_to_the_binding_that_ran_the_search": true
+  },
+  "level3_tables_reproduced": {
+   "lf_tables": "identical",
+   "lf_hint_binding": "identical except the generator comment line",
+   "sf43h_tables_and_groups": "identical"
+  },
+  "parent_stream_level1_example": {
+   "submission": "98460d66",
+   "ops": 10243131,
+   "prefix_raw_sha256": "328bb5debe4156a93f78239295e32f437b3281ef1be795d660b7241a9730ef6d",
+   "checkpoint_sha256": "402b5e761d4582428993316ca75f715c36bcf9c48e88b160bdbd7311209cf026",
+   "identical_to_our_earlier_binding_of_that_stream": true
+  },
+  "survivor_equality_vs_original_search": {
+   "windows": [
+    1452086000000,
+    1452087000000,
+    1452088000000,
+    1452089000000,
+    1452090000000,
+    1452091000000,
+    1452092000000,
+    1452093000000,
+    1452094000000,
+    1452095000000,
+    1453896000000
+   ],
+   "window_size": 1000000,
+   "builds": [
+    "packaged sources, checkpoint of the searched build",
+    "packaged sources, shipped baseline checkpoint"
+   ],
+   "all_identical": true,
+   "control_nonce_survives": true
+  },
+  "validation_vs_original_records": {
+   "survivors": [
+    1452088378534,
+    1452090555455,
+    1452092199242,
+    1452095339804,
+    1452095385231
+   ],
+   "classical_mismatches": [
+    3,
+    4,
+    4,
+    1,
+    2
+   ],
+   "phase_garbage_batches": [
+    4,
+    3,
+    5,
+    5,
+    1
+   ],
+   "identical_to_the_original_search": true,
+   "clean": 0
+  },
+  "binary_hash_note": "nvcc output is not bit-reproducible (rebuilding the original sources gave a different hash); behaviour is checked by audits and survivor equality instead.",
+  "audit_repeat_other_build": {
+   "note": "A first fresh clone (commit a42c12e, a separate build with a different binary hash) audited the same 48 packets and gave the same summary; its control, both scans and the validation also passed.",
+   "summary": {
+    "native_good_gpu_bad": 0,
+    "native_bad_gpu_good": 176,
+    "true_reject": 732,
+    "true_admit": 432244
+   }
+  }
+ },
+ "notes": [
+  "Scans covered only windows of the original search (replication); no new nonce range was searched.",
+  "The stock evaluator stops before its metrics on a failing nonce, so validate reports no mean for failures."
+ ]
+}
