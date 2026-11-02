@@ -1,0 +1,55 @@
+{
+  "name": "spookyfrog 24",
+  "benchmark": "ecdsa.fail secp256k1 point addition; score = qubits x rounded mean executed Toffoli over 9,024 shots",
+  "baseline": {
+    "submission": "859d928d-76ee-4340-a466-ce6bce98f1c7",
+    "repo_url": "https://github.com/Layr-Labs/ecdsafail-challenge",
+    "commit": "39b7cd573f5a7a6b01970a9cd4f11a462e398ea1",
+    "score": 912499810,
+    "qubits": 1234,
+    "rounded_toffoli": 739465,
+    "baked_nonce": 1453896738487
+  },
+  "stream": {
+    "ops": 10260493,
+    "prefix_raw_sha256": "df4dc47a7f0f91254d20daf500893a3c576d07a9d06e0c0392821ac7964523be",
+    "raw_sha256": "e393544fbb9aeaaa74d0bd3e727e83f61fad7367616cc05978b8e6e90fbae792",
+    "checkpoint_sha256": "865ab30e9c1c33ef15125fbfd68b06fbaa97d345e870b47ca5916ea65e1223ed",
+    "note": "raw = SHA-256 of the decoded 56-byte records (the packed ops.bin can differ between zstd builds); prefix = the records before the 96-op nonce tail"
+  },
+  "control": {
+    "nonce": 1453896738487,
+    "survives_filter": true,
+    "clean": true,
+    "score": 912499810,
+    "mean_toffoli": 739464.902,
+    "raw_sha256": "e393544fbb9aeaaa74d0bd3e727e83f61fad7367616cc05978b8e6e90fbae792"
+  },
+  "audit": {
+    "start": 1580000000000,
+    "count": 48,
+    "pass_rule": "native_good_gpu_bad == 0 and checker_control.detected"
+  },
+  "reference_windows": {
+    "note": "Survivor nonces of 1,000,000-nonce windows (start .. start+999,999) from the original search on this stream. A correct build reproduces them exactly; tools/sfgf.py scan compares automatically when a window start matches.",
+    "window": 1000000,
+    "survivors": {
+      "1452086000000": [],
+      "1452087000000": [],
+      "1452088000000": [1452088378534],
+      "1452089000000": [],
+      "1452090000000": [1452090555455],
+      "1452091000000": [],
+      "1452092000000": [1452092199242],
+      "1452093000000": [],
+      "1452094000000": [],
+      "1452095000000": [1452095339804, 1452095385231],
+      "1453896000000": [1453896738487]
+    }
+  },
+  "throughput": {
+    "card": "RTX 5090 (sm_120)",
+    "nonces_per_second": 109000,
+    "survivors_per_million": 0.23
+  }
+}

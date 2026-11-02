@@ -1,0 +1,43 @@
+--- a/src/bin/eval_circuit.rs
++++ b/src/bin/eval_paired.rs
+@@ -1,4 +1,5 @@
+-//! TRUSTED stage of the challenge harness.
++//! Per-shot listing copy of the trusted stage (prefilter fidelity audit): prints FAILSHOT / PHASEBATCH /
++//! ANCBATCH lines and reads the stream from $EVAL_OPS (default ops.bin). Checks and counts are unchanged.
+ //!
+ //! Reads the op stream produced by `build_circuit` from `ops.bin`,
+ //! re-simulates the circuit against the secp256k1 reference adder,
+@@ -300,6 +301,7 @@
+             let gy = sim.get_register(&layout_regs[1], shot);
+             if gx != expected[i].0 || gy != expected[i].1 {
+                 classical_failures += 1;
++                println!("FAILSHOT {i}");
+                 if fail_reason.is_none() {
+                     fail_reason = Some(format!(
+                         "CLASSICAL MISMATCH shot {i}: got ({:#x},{:#x}) exp ({:#x},{:#x})",
+@@ -313,6 +315,7 @@
+         let phase = sim.phase & cond_mask;
+         if phase != 0 {
+             phase_garbage_batches += 1;
++            println!("PHASEBATCH {batch} {phase:#018x}");
+             let msg = format!(
+                 "PHASE GARBAGE: global_phase = {:#018x} across {} live shots (must be 0)",
+                 phase, bs
+@@ -340,6 +343,7 @@
+         }
+         if let Some(q) = garbage_q {
+             ancilla_garbage_batches += 1;
++            println!("ANCBATCH {batch}");
+             let v = sim.qubit(QubitId(q)) & cond_mask;
+             let msg = format!(
+                 "ANCILLA GARBAGE: qubit {} = {:#018x} (live shots) at end of forward; \
+@@ -456,7 +460,8 @@
+     let note = parse_note();
+     println!("=== quantum_ecc: eval_circuit (trusted stage) ===\n");
+ 
+-    let ops = match load_ops(OPS_PATH) {
++    let ops_path = std::env::var("EVAL_OPS").unwrap_or_else(|_| OPS_PATH.to_string());
++    let ops = match load_ops(&ops_path) {
+         Ok(v) => v,
+         Err(e) => {
+             eprintln!("!! could not load {OPS_PATH}: {e}");

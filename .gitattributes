@@ -1,0 +1,4 @@
+# LF everywhere: binding.json records SHA-256 hashes of the exact file bytes
+* text=auto eol=lf
+*.bin binary
+*.patch text eol=lf

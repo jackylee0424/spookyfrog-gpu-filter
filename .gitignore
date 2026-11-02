@@ -1,0 +1,11 @@
+# work products (baseline checkout, streams, audits, scans, logs)
+work/
+ops.bin
+*.flags
+*.tmp
+# build outputs
+src/leapfrog_filter
+src/*.o
+tools/lftools/target/
+__pycache__/
+*.pyc
