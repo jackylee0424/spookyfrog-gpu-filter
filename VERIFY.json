@@ -1,6 +1,6 @@
 {
  "label": "Maintainers' end-to-end run of AGENTS.md from a fresh clone, plus packaging checks. Machine: one RTX 5090 (sm_120) under WSL2, CUDA 13.2, Python 3.12, Rust 1.93.",
- "repository_commit_tested": "39e736104ab348f910c3688ea93ddd2646164a61",
+ "repository_commit_tested": "dbce0a3f795224d1ee61bf1f6618937acf5692ee",
  "replication_path": {
   "doctor": [
    {
@@ -13,23 +13,102 @@
      "filter_built": false,
      "evaluator_built": false
     },
-    "checks": {
-     "linux": true,
-     "python>=3.9": true,
-     "nvcc": true,
-     "nvidia_gpu": true,
-     "cargo": true,
-     "rustc": true,
-     "git": true,
-     "patch": true,
-     "tar": true,
-     "c_compiler": true,
-     "libzstd": true,
-     "bubblewrap": true,
-     "ecdsafail_cli": false,
-     "repo_files_match_binding": true,
-     "disk_free_gb>=6": true
-    }
+    "checks": [
+     {
+      "name": "linux",
+      "ok": true,
+      "required": true,
+      "detail": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39"
+     },
+     {
+      "name": "python>=3.9",
+      "ok": true,
+      "required": true,
+      "detail": "3.12.3"
+     },
+     {
+      "name": "nvcc",
+      "ok": true,
+      "required": true,
+      "detail": "13.2"
+     },
+     {
+      "name": "nvidia_gpu",
+      "ok": true,
+      "required": true,
+      "detail": {
+       "name": "NVIDIA GeForce RTX 5090",
+       "arch": "sm_120"
+      }
+     },
+     {
+      "name": "cargo",
+      "ok": true,
+      "required": true,
+      "detail": "/usr/local/bin/cargo"
+     },
+     {
+      "name": "rustc",
+      "ok": true,
+      "required": true,
+      "detail": "/usr/local/bin/rustc"
+     },
+     {
+      "name": "git",
+      "ok": true,
+      "required": true,
+      "detail": "/usr/bin/git"
+     },
+     {
+      "name": "patch",
+      "ok": true,
+      "required": true,
+      "detail": "/usr/bin/patch"
+     },
+     {
+      "name": "tar",
+      "ok": true,
+      "required": true,
+      "detail": "/usr/bin/tar"
+     },
+     {
+      "name": "c_compiler",
+      "ok": true,
+      "required": true,
+      "detail": "/usr/bin/gcc"
+     },
+     {
+      "name": "libzstd",
+      "ok": true,
+      "required": true,
+      "detail": "libzstd.so.1"
+     },
+     {
+      "name": "bubblewrap",
+      "ok": true,
+      "required": false,
+      "detail": "/usr/bin/bwrap"
+     },
+     {
+      "name": "ecdsafail_cli",
+      "ok": false,
+      "required": false,
+      "detail": null,
+      "hint": "Optional: only needed to submit; not needed to replicate."
+     },
+     {
+      "name": "repo_files_match_binding",
+      "ok": true,
+      "required": true,
+      "detail": "all files match binding.json"
+     },
+     {
+      "name": "disk_free_gb>=6",
+      "ok": true,
+      "required": true,
+      "detail": 416.0
+     }
+    ]
    }
   ],
   "fetch-baseline": [
@@ -55,7 +134,7 @@
      "raw_sha256": true,
      "score": true
     },
-    "seconds": 78,
+    "seconds": 73,
     "log": "work/logs/build-stream.log"
    }
   ],
@@ -86,13 +165,13 @@
    {
     "ok": true,
     "arch": "sm_120",
-    "binary_sha256": "898454e6a6250fbdbb5d07befcc5e7a3fcf9ce4cd6d0a19367f8b96e582f58fb"
+    "binary_sha256": "aee1a192564d5bd5187757b17ababf61d6c92a96dd1982fb1e117708209192ac"
    }
   ],
   "audit": [
    {
     "ok": true,
-    "audit": "work/audits/fidelity-1580000000000-48-898454e6a625/AUDIT.json",
+    "audit": "work/audits/fidelity-1580000000000-48-aee1a192564d/AUDIT.json",
     "packets": 48,
     "native_good_gpu_bad": 0,
     "native_bad_gpu_good": 176,
@@ -124,11 +203,11 @@
     "start": 1453896000000,
     "nonces": 1000000,
     "survivors": 1,
-    "nonces_per_second": 111748,
+    "nonces_per_second": 120216,
     "reference_windows_compared": 1,
     "reference_windows_mismatched": [],
     "survivors_file": "work/scans/1453896000000/survivors.bin",
-    "audited_by": "work/audits/fidelity-1580000000000-48-898454e6a625/AUDIT.json",
+    "audited_by": "work/audits/fidelity-1580000000000-48-aee1a192564d/AUDIT.json",
     "next": "python3 tools/sfgf.py validate --survivors work/scans/1453896000000/survivors.bin"
    },
    {
@@ -136,11 +215,11 @@
     "start": 1452086000000,
     "nonces": 10000000,
     "survivors": 5,
-    "nonces_per_second": 108762,
+    "nonces_per_second": 118546,
     "reference_windows_compared": 10,
     "reference_windows_mismatched": [],
     "survivors_file": "work/scans/1452086000000/survivors.bin",
-    "audited_by": "work/audits/fidelity-1580000000000-48-898454e6a625/AUDIT.json",
+    "audited_by": "work/audits/fidelity-1580000000000-48-aee1a192564d/AUDIT.json",
     "next": "python3 tools/sfgf.py validate --survivors work/scans/1452086000000/survivors.bin"
    }
   ],
@@ -156,12 +235,12 @@
   {
    "command": "doctor",
    "rc": 0,
-   "seconds": 0
+   "seconds": 1
   },
   {
    "command": "fetch-baseline",
    "rc": 0,
-   "seconds": 1
+   "seconds": 2
   },
   {
    "command": "build-stream",
@@ -176,27 +255,27 @@
   {
    "command": "rebind --level 1",
    "rc": 0,
-   "seconds": 9
+   "seconds": 8
   },
   {
    "command": "build",
    "rc": 0,
-   "seconds": 76
+   "seconds": 78
   },
   {
    "command": "audit",
    "rc": 0,
-   "seconds": 267
+   "seconds": 268
   },
   {
    "command": "control",
    "rc": 0,
-   "seconds": 18
+   "seconds": 19
   },
   {
    "command": "scan --from 1453896000000 --count 1000000",
    "rc": 0,
-   "seconds": 9
+   "seconds": 8
   },
   {
    "command": "scan --from 1452086000000 --count 10000000",
@@ -206,7 +285,7 @@
   {
    "command": "validate --survivors work/scans/1452086000000/survivors.bin",
    "rc": 0,
-   "seconds": 59
+   "seconds": 58
   }
  ],
  "audit_detail": {
@@ -226,7 +305,11 @@
   },
   "model_survivors": 0,
   "cpu_classically_clean": 0,
-  "seconds": 287.9
+  "seconds": 287.9,
+  "native_good_gpu_bad": 0,
+  "native_bad_gpu_good": 176,
+  "true_reject": 732,
+  "true_admit": 432244
  },
  "packaging_checks": {
   "lftools_checkpoint_reproduced": {
@@ -306,6 +389,7 @@
  },
  "notes": [
   "Scans covered only windows of the original search (replication); no new nonce range was searched.",
-  "The stock evaluator stops before its metrics on a failing nonce, so validate reports no mean for failures."
+  "The stock evaluator stops before its metrics on a failing nonce, so validate reports no mean for failures.",
+  "Re-run of every step from a fresh clone of the commit above, after the credits commits (the only source change is the attribution header of src/leapfrog_filter.cu). nvcc output differs per build, so the audit was re-run on the new binary."
  ]
 }
