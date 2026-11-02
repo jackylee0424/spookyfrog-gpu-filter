@@ -1,5 +1,13 @@
 // Source-bound Leapfrog prefilter. Phase and finite payload cells are unmodeled.
 // Every survivor requires full trusted CPU C/P/A and executed-cost validation.
+//
+// Credits (CREDITS.md):
+// - Scanner core (SHAKE256 prefix checkpoint and nonce-tail patch, secp256k1 field and Jacobian point arithmetic,
+//   fixed-base comb, batch inversion, host driver): derived from John Boyer's pingpong-prefilter,
+//   https://github.com/somejohnbforya/pingpong-prefilter (commit da0e572). The "pingpong_filter.rs:N" comments cite
+//   its CPU reference. That code carries no licence and is not offered under this repository's MIT licence.
+// - Walk model: the Leapfrog circuit family (BitWonka, submission 86221ad) and its lineage, modeled by the spookyfrog
+//   team.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

@@ -62,6 +62,21 @@ source needs a rebind at one of three levels, and **every rebind must be followe
 | [`CREDITS.md`](CREDITS.md) | authors, models used and code lineage |
 | `VERIFY.json` | our own end-to-end run of the replication path from a fresh clone |
 
+## Credits
+
+- **Scanner core:** John Boyer's [pingpong-prefilter](https://github.com/somejohnbforya/pingpong-prefilter) (hashing,
+  field and point arithmetic, comb, batch inversion, host driver).
+- **Prior work:** Jieyi Long's [ecdsafail_gpu_toolkit](https://github.com/jieyilong/ecdsafail_gpu_toolkit), the first
+  public GPU nonce screen for this benchmark, whose design this filter follows; newjordan's, alexander-sei's and
+  PhantasticUniverse's early classical prefilters ([`CREDITS.md`](CREDITS.md)).
+- **Walk family:** Leapfrog, by BitWonka; the vetoes and choice narrowing the filter models, by haotang1995 and
+  odinfree.
+- **Baseline circuit:** spookyfrog 24 and the many board entries under it, listed by author in
+  [`CREDITS.md`](CREDITS.md).
+- **Benchmark:** [ecdsa.fail challenge](https://github.com/Layr-Labs/ecdsafail-challenge) by Layr-Labs.
+- **Built with:** Claude Opus 5.5 (xhigh) in Claude Code and GPT-6.1 Sol (xhigh) in Codex CLI.
+
 ## Licence
 
-MIT, see [`LICENSE`](LICENSE). Third-party lineage is listed in [`CREDITS.md`](CREDITS.md).
+MIT, see [`LICENSE`](LICENSE), except the parts of `src/leapfrog_filter.cu` derived from pingpong-prefilter, which
+carries no licence; see [`CREDITS.md`](CREDITS.md).

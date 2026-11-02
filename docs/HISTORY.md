@@ -4,6 +4,7 @@
 
 | date (2026) | step |
 |---|---|
+| Jun 4-7 | Classical nonce prefilters appear on the board (PhantasticUniverse, alexander-sei, John Boyer, newjordan), and Jieyi Long publishes the first bit-exact CUDA port and the public `ecdsafail_gpu_toolkit`, whose design this filter follows (`CREDITS.md`). |
 | Aug 22 | John Boyer published a classical "ping-pong" tail-nonce prefilter (CPU reference + CUDA port, github.com/somejohnbforya/pingpong-prefilter). We reviewed it and kept its scanner core: the SHAKE256 prefix checkpoint, field arithmetic, comb and batch inversion (`CREDITS.md`). |
 | Oct 6 | First Leapfrog filter, for the Leapfrog circuit family (BitWonka, submission 86221ad, 1,243 qubits): classical models of the divide and multiply walks, run-time binding of the walk tables. |
 | Oct 9-25 | Rebinds for each new head of the lineage; the A2 rails (122 ticks, replay boundaries 37 and 43) and the fast tier-1 selector (`sf43h_hint_flat.cuh`); full multiply and divide models; queued finite-register confirmation (`lf_walk.cuh`). |
