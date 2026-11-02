@@ -320,8 +320,9 @@ def control(a):
     if not v:
         return fail_setup('control', 'validation failed to run', stderr=p.stderr[-800:])
     raw = nonce_tool.raw_sha256(ops, n)
-    score = (v.get('score_json') or {}).get('score')
+    score = v.get('score')
     checks = dict(survives_filter=pos['survived'], clean=v['clean'], score=score == e['control']['score'],
+                  evaluator_score_json=v.get('score_matches_score_json') is True,
                   replay_raw=raw == e['control']['raw_sha256'])
     return done('control', all(checks.values()), nonce=n, checks=checks, score=score, mean_toffoli=v['mean_toffoli'],
                 qubits=v['qubits'], replication='PASS' if all(checks.values()) else 'FAIL')
@@ -391,7 +392,8 @@ def validate(a):
     rows = [json.loads(l[len('VALIDATE '):]) for l in p.stdout.splitlines() if l.startswith('VALIDATE ')]
     for r in rows:
         print('VALIDATE', json.dumps(r))
-    clean = [dict(nonce=r['nonce'], mean_toffoli=r['mean_toffoli'], score=(r.get('score_json') or {}).get('score')) for r in rows if r['clean']]
+    clean = [dict(nonce=r['nonce'], mean_toffoli=r['mean_toffoli'], score=r.get('score'),
+                  score_ambiguous=r.get('score_ambiguous')) for r in rows if r['clean']]
     return done('validate', p.returncode == 0, checked=len(rows), clean=clean)
 
 

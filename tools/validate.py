@@ -5,18 +5,22 @@
 
 check   For each nonce: rewrite the stream's nonce tail (tools/nonce.py), run the STOCK evaluator (the harness's
         eval_circuit, which reads ./ops.bin) in a scratch directory, and report the four checks, the executed
-        Toffoli mean and the score it writes to score.json. A nonce is clean only if the evaluator itself says every
-        shot is OK. The prefilter does not see phase or payload cells, so most survivors fail here; that is expected.
+        Toffoli mean and the score (qubits x mean rounded half away from zero, as the evaluator computes it; with a
+        single nonce the evaluator's own score.json, written in its checkout root, is read back and compared).
+        A nonce is clean only if the evaluator itself says every shot is OK. The prefilter does not see phase or
+        payload cells, so most survivors fail here; that is expected.
 replay  After you bake a clean nonce into the source and rebuild with the stock harness, compare the decoded records of
         the rebuilt ops.bin with the rewritten stream. They must be identical (compressed files may differ). Then run
         the harness benchmark on that tree before submitting anything.
 """
 import argparse
 import json
+import math
 import re
 import subprocess
 import sys
 import tempfile
+import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -30,13 +34,19 @@ def field(pattern, text, cast=int):
     return cast(m.group(1)) if m else None
 
 
-def check_one(ops, evaluator, n):
+def check_one(ops, evaluator, n, read_score_json):
+    # The stock evaluator reads ./ops.bin but writes score.json (and appends results.tsv) in its own checkout root, so
+    # score.json is only read back when a single evaluation runs; the score is also recomputed from the printed mean.
+    root_score = Path(evaluator).resolve().parents[2] / 'score.json'
     with tempfile.TemporaryDirectory(prefix=f'lf-validate-{n}-') as td:
         d = Path(td)
         nonce_tool.rewrite(ops, n, d / 'ops.bin')
+        t0 = time.time()
         p = subprocess.run([str(evaluator)], cwd=d, capture_output=True, text=True)
         text = p.stdout + p.stderr
-        score = json.loads((d / 'score.json').read_text()) if (d / 'score.json').exists() else None
+    score = None
+    if read_score_json and root_score.exists() and root_score.stat().st_mtime >= t0 - 1:
+        score = json.loads(root_score.read_text())
     r = dict(nonce=n, returncode=p.returncode,
              tested_shots=field(r'tested shots\s*:\s*(\d+)', text),
              classical_mismatches=field(r'classical mismatches\s*:\s*(\d+)', text),
@@ -47,6 +57,14 @@ def check_one(ops, evaluator, n):
              qubits=field(r'^\s*qubits\s*:\s*(\d+)', text), score_json=score)
     r['clean'] = (p.returncode == 0 and r['all_shots_ok'] and r['classical_mismatches'] == 0
                   and r['phase_garbage_batches'] == 0 and r['ancilla_garbage_batches'] == 0)
+    if r['clean'] and r['mean_toffoli'] is not None and r['qubits']:
+        printed = field(r'avg executed Toffoli\s*:\s*([0-9.]+)', text, str)
+        r['rounded_toffoli'] = math.floor(r['mean_toffoli'] + 0.5)  # the evaluator rounds half away from zero
+        r['score'] = r['rounded_toffoli'] * r['qubits']
+        # the mean is printed to 3 decimals; .500 cannot be rounded safely from the printed value
+        r['score_ambiguous'] = printed.endswith('.500')
+        if score:
+            r['score_matches_score_json'] = score.get('score') == r['score']
     if not r['clean']:
         r['reason'] = (re.findall(r'!! .*', text) or ['(see evaluator output)'])[0]
     return r
@@ -78,8 +96,9 @@ def main():
     else:
         data = Path(a.survivors).read_bytes()
         nonces = sorted({int.from_bytes(data[i:i + 8], 'little') for i in range(0, len(data), 8)})
-    with ThreadPoolExecutor(a.jobs) as pool:
-        for res in pool.map(lambda n: check_one(ops, evaluator, n), nonces):
+    jobs = max(1, min(a.jobs, len(nonces)))
+    with ThreadPoolExecutor(jobs) as pool:
+        for res in pool.map(lambda n: check_one(ops, evaluator, n, jobs == 1), nonces):
             print('VALIDATE', json.dumps(res), flush=True)
     return 0
 
