@@ -12,6 +12,10 @@ Built by the spookyfrog team for the ecdsa.fail benchmark, with coding agents:
 - Claude Opus 5.5 (xhigh), in Claude Code
 - GPT-6.1 Sol (xhigh), in Codex CLI
 
+## Logo
+
+`assets/logo.jpg` was generated with Google Gemini.
+
 ## Code in this repository
 
 - **Scanner core: John Boyer (johnbxx on the board).** The SHAKE256 prefix checkpoint and nonce-tail patch, the secp256k1 field arithmetic,

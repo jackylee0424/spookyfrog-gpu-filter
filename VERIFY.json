@@ -390,6 +390,7 @@
  "notes": [
   "Scans covered only windows of the original search (replication); no new nonce range was searched.",
   "The stock evaluator stops before its metrics on a failing nonce, so validate reports no mean for failures.",
-  "Re-run of every step from a fresh clone of the commit above, after the credits commits (the only source change is the attribution header of src/leapfrog_filter.cu). nvcc output differs per build, so the audit was re-run on the new binary."
+  "Re-run of every step from a fresh clone of the commit above, after the credits commits (the only source change is the attribution header of src/leapfrog_filter.cu). nvcc output differs per build, so the audit was re-run on the new binary.",
+  "Later commits change no compiled input: the attribution comment of src/leapfrog_filter.cu now names the Leapfrog submission (53986ea4) and its commit (86221ad), with the same line count; the comment-stripped source is byte-identical to the tested commit's, and binding.json carries the file's new hash. The other changes are documents and the logo."
  ]
 }

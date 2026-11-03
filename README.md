@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.jpg" alt="spookyfrog logo: a frog wizard with a glowing staff among jack-o'-lanterns under an orange moon" width="320">
+</p>
+
 # spookyfrog-gpu-filter
 
 A CUDA prefilter that screens Fiat-Shamir tail nonces for the ecdsa.fail secp256k1 point-addition benchmark, bound to
@@ -79,6 +83,7 @@ Long's [ecdsafail_gpu_toolkit](https://github.com/jieyilong/ecdsafail_gpu_toolki
   [`CREDITS.md`](CREDITS.md).
 - **Benchmark:** [ecdsa.fail challenge](https://github.com/Layr-Labs/ecdsafail-challenge) by Layr-Labs.
 - **Built with:** Claude Opus 5.5 (xhigh) in Claude Code and GPT-6.1 Sol (xhigh) in Codex CLI.
+- **Logo:** generated with Google Gemini.
 
 ## Licence
 
