@@ -5,9 +5,12 @@
 # spookyfrog-gpu-filter
 
 A CUDA prefilter that screens Fiat-Shamir tail nonces for the ecdsa.fail secp256k1 point-addition benchmark, bound to
-the Leapfrog-family circuit of the current best submission (**spookyfrog 24**: 1,234 qubits x 739,465 Toffoli =
+the Leapfrog-family circuit of the [39b7cd5](https://github.com/Layr-Labs/ecdsafail-challenge/commit/39b7cd573f5a7a6b01970a9cd4f11a462e398ea1) submission (**spookyfrog 24**: 1,234 qubits x 739,465 Toffoli =
 912,499,810). It runs at about **109,000 nonces/s on one RTX 5090** and keeps about 0.23 nonces per million for the
 full check.
+
+<img height="400" alt="image" src="https://github.com/user-attachments/assets/fe85a474-82f5-4fa0-8d7b-0e785029d42e" />
+<br/><br/>
 
 > **It is a prefilter, not a grader.** It models the classical walk of the circuit's divide and multiply legs on every
 > one of the 9,024 shots a nonce draws. It does not model phase garbage, approximate payload cells or ancilla cleanup.
