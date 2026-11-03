@@ -50,6 +50,9 @@ choice policy extracted from the circuit's own operations. A new nonce on the sa
 source needs a rebind at one of three levels, and **every rebind must be followed by the fidelity audit**. See
 [`docs/REBIND.md`](docs/REBIND.md).
 
+This filter models only the Leapfrog walks. For the dialog-GCD and TrailMix circuit families of June 2026, see Jieyi
+Long's [ecdsafail_gpu_toolkit](https://github.com/jieyilong/ecdsafail_gpu_toolkit).
+
 ## Documentation
 
 | file | contents |
@@ -66,9 +69,10 @@ source needs a rebind at one of three levels, and **every rebind must be followe
 
 - **Scanner core:** John Boyer's [pingpong-prefilter](https://github.com/somejohnbforya/pingpong-prefilter) (hashing,
   field and point arithmetic, comb, batch inversion, host driver).
-- **Prior work:** Jieyi Long's [ecdsafail_gpu_toolkit](https://github.com/jieyilong/ecdsafail_gpu_toolkit), the first
-  public GPU nonce screen for this benchmark, whose design this filter follows; newjordan's, alexander-sei's and
-  PhantasticUniverse's early classical prefilters ([`CREDITS.md`](CREDITS.md)).
+- **Prior work:** Jieyi Long's [ecdsafail_gpu_toolkit](https://github.com/jieyilong/ecdsafail_gpu_toolkit) (MIT), the
+  first open-source GPU nonce search for this benchmark, whose design this filter shares (no code from it is in this
+  repository); the earlier on-GPU finders of John Boyer and runeape-sats; and the early classical prefilters of
+  newjordan, alexander-sei and PhantasticUniverse ([`CREDITS.md`](CREDITS.md)).
 - **Walk family:** Leapfrog, by BitWonka; the vetoes and choice narrowing the filter models, by haotang1995 and
   odinfree.
 - **Baseline circuit:** spookyfrog 24 and the many board entries under it, listed by author in

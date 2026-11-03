@@ -26,20 +26,41 @@ Built by the spookyfrog team for the ecdsa.fail benchmark, with coding agents:
 ## Prior work on nonce prefilters
 
 This filter stands on earlier public work on screening tail nonces before the full evaluation. The earliest instances we
-found in the public submission notes of the board:
+found in the public submission notes of the board, in order:
 
-- **Jieyi Long (jieyilong)**: the first bit-exact CUDA port of a circuit's classical prefilter (submission 98495351,
-  2026-06-06; a block-per-nonce, shot-parallel kernel on two A100s), then the public, MIT-licensed
-  https://github.com/jieyilong/ecdsafail_gpu_toolkit (submission ff46db24, 2026-06-07). It exports the fixed SHAKE
-  prefix, the circuit's schedules and the secp256k1 comb table once, then scans nonce tails on the GPU. This filter
-  follows the same design; no code from the toolkit is in this repository.
+- **PhantasticUniverse**: a width and convergence prefilter in front of the full simulator (b29ff7ff, 2026-06-04).
 - **John Boyer (johnbxx)**: a classical convergence prefilter feeding a GPU compare and width screen (64f75ba9,
-  2026-06-05), and later the ping-pong prefilter that this repository's scanner core comes from (54ff37e6 and
-  ed30a235, 2026-08-22).
+  2026-06-05), then an on-GPU finder that hashes, multiplies by the fixed base with a comb and screens every shot
+  (7d1dfe64, 2026-06-06): the earliest GPU nonce screens we found. Later, the ping-pong prefilter that this
+  repository's scanner core comes from (54ff37e6 and ed30a235, 2026-08-22).
+- **alexander-sei**: a classical convergence filter (488afae5, 2026-06-05), which later notes credit.
 - **newjordan**: classical prefilter lanes on rented CPU machines that found clean nonces for new op streams (012fba1f
   and following entries, 2026-06-06).
-- **alexander-sei**: a classical convergence filter (488afae5, 2026-06-05), which later notes credit; and
-  **PhantasticUniverse**: a width and convergence prefilter in front of the full simulator (b29ff7ff, 2026-06-04).
+- **runeape-sats**: a CUDA finder of the same shape (d3b4e7b6 and 2e797801, 2026-06-06).
+- **Jieyi Long (jieyilong)**: a bit-exact CUDA port of a circuit's own classical filter, one block per nonce on two
+  A100s (98495351, 2026-06-06), then the first open-source GPU nonce search for this benchmark,
+  `ecdsafail_gpu_toolkit` (next section).
+
+### Jieyi Long's ecdsafail_gpu_toolkit
+
+https://github.com/jieyilong/ecdsafail_gpu_toolkit, MIT licence, first commit 2026-06-07, announced in submission
+ff46db24 the same day. We read it at commit `2fdcec6` (2026-06-23).
+
+- **What it is.** A GPU nonce search for the circuit families of June 2026 (the dialog-GCD circuits, later TrailMix). A
+  Rust exporter writes the SHAKE256 prefix state, the filter's schedule arrays and a comb table. A CUDA kernel gives
+  each nonce one block, whose threads split the 9,024 shots, derives every shot and runs the circuit's own classical
+  filter. Survivors go to the stock evaluator. Later commits add batch inversion, larger comb tables, a precomputed
+  fan of nonce tails, checks of exact circuit conditions on the CPU, and a skill file for coding agents.
+- **Same design, separate code.** This filter uses the same pipeline: a prefix checkpoint so that only the 96-op tail is
+  hashed per nonce, a fixed-base comb, batch inversion, a known clean nonce that must survive before any search, and the
+  stock evaluator as the final check. We compared the sources line by line. Our CUDA files share no code with the
+  toolkit's beyond one `#include` line. The six lines our tools share with its Rust tools and patches are the
+  benchmark's own evaluator and Fiat-Shamir code. Our scanner core comes from John Boyer's code (above), and the walk
+  model is ours.
+- **Its place in this lineage.** krishparadox ran their filter inside the toolkit's kernel (d7df7706 and 8f980ccb; the
+  second is in the baseline's lineage below), and odinfree used it as their GPU search (c20c89b3).
+- **Other circuit families.** The toolkit carries filters for the June 2026 families, which this repository does not
+  model; this repository models only the Leapfrog walks.
 
 ## What the walk model follows
 

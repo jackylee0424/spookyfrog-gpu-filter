@@ -4,7 +4,7 @@
 
 | date (2026) | step |
 |---|---|
-| Jun 4-7 | Classical nonce prefilters appear on the board (PhantasticUniverse, alexander-sei, John Boyer, newjordan), and Jieyi Long publishes the first bit-exact CUDA port and the public `ecdsafail_gpu_toolkit`, whose design this filter follows (`CREDITS.md`). |
+| Jun 4-7 | Classical nonce prefilters appear on the board (PhantasticUniverse, John Boyer, alexander-sei, newjordan). John Boyer (June 5-6) and runeape-sats (June 6) report on-GPU finders, and Jieyi Long reports a bit-exact CUDA port of a circuit's own filter (June 6). On June 7 Jieyi Long publishes `ecdsafail_gpu_toolkit` (MIT), the first open-source GPU nonce search, whose design this filter shares (`CREDITS.md`). |
 | Aug 22 | John Boyer published a classical "ping-pong" tail-nonce prefilter (CPU reference + CUDA port, github.com/somejohnbforya/pingpong-prefilter). We reviewed it and kept its scanner core: the SHAKE256 prefix checkpoint, field arithmetic, comb and batch inversion (`CREDITS.md`). |
 | Oct 6 | First Leapfrog filter, for the Leapfrog circuit family (BitWonka, submission 86221ad, 1,243 qubits): classical models of the divide and multiply walks, run-time binding of the walk tables. |
 | Oct 9-25 | Rebinds for each new head of the lineage; the A2 rails (122 ticks, replay boundaries 37 and 43) and the fast tier-1 selector (`sf43h_hint_flat.cuh`); full multiply and divide models; queued finite-register confirmation (`lf_walk.cuh`). |
@@ -50,4 +50,5 @@ qubits, score 912,499,810 (spookyfrog 24, accepted and promoted). The windows li
 
 **Lesson.** Audit fixed packets against the stock evaluator after every rebind, not only a known-answer test. The
 known-answer test checks the hash and the point arithmetic; only the audit checks that the walk model agrees with the
-circuit you bound it to.
+circuit you bound it to. Jieyi Long's toolkit records a failure of the same kind: on a new circuit, one of its fast
+modes missed a known clean nonce.
